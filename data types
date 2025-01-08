@@ -1,0 +1,8 @@
+a=10
+print(type(a))
+b=3.14
+print(type(b))
+c=5+7j
+print(type(c))
+is_true='True'
+print(type(is_true))
