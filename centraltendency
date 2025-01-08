@@ -2,7 +2,7 @@ import statistics
 data = [10, 20, 30, 40, 50] 
 mean=statistics.mean(data)  
 median=statistics.median(data) 
-mode=statistics.mode(data) 6
+mode=statistics.mode(data) 
 variance=statistics.variance(data)  
 std_dev=statistics.stdev(data) 
 print("Mean:", mean) 
@@ -10,3 +10,11 @@ print("Median:", median)
 print("Mode:", mode) 
 print("Variance:", variance) 
 print("Standard Deviation:", std_dev) 
+
+OUTPUT:
+Mean: 30
+Median: 30
+Mode: 10
+Variance: 250
+Standard Deviation: 15.811388300841896
+
