@@ -1,0 +1,12 @@
+import statistics
+data = [10, 20, 30, 40, 50]
+variance = statistics.variance(data)
+std_deviation = statistics.stdev(data)
+print(f"Data: {data}")
+print(f"Variance: {variance}")
+print(f"Standard Deviation: {std_deviation}")
+
+OUTPUT:
+Data: [10, 20, 30, 40, 50]
+Variance: 250
+Standard Deviation: 15.811388300841896
