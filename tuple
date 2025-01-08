@@ -1,0 +1,7 @@
+my_tuple = (1, 2, 3, "hello")
+print(my_tuple)
+print(my_tuple[1])
+print(len(my_tuple))
+print(2 in my_tuple)
+for item in my_tuple:
+  print(item)
