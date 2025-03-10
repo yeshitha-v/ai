@@ -1,7 +1,0 @@
-my_dict = {"name": "Alice", "age": 30, "city": "Hyd"}
-print(my_dict["name"])
-my_dict["occupation"] = "Engineer"
-my_dict["age"] = 31
-del my_dict["city"]
-for key, value in my_dict.items():
-  print(key,value)
