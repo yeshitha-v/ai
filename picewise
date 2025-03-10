@@ -1,0 +1,29 @@
+import cv2
+import numpy as np
+#Load the image in grayscale
+img = cv2.imread('sample2.png')
+#1. *Contrast Stretching*
+min_in = 50 # Input range min
+max_in = 150 # Input range max
+min_out #Output range min
+max_out = 255 # Output range max
+contrast_stretched = np.uint8(((imgmin_in) / (max_inmin_in)) * (max_out min_out) + min_out)
+#2. *Intensity Slicing*
+lower_bound = 100 # Lower intensity for slicing
+upper_bound = 150 # Upper intensity for slicing
+sliced_img = np.zeros_like(img)
+sliced_img[(img >= lower_bound) & (img <= upper_bound)] = 255
+#3. *Bit Plane Slicing*
+bit_planes = []
+for i in range(8): # For 8 bits, 0-7
+bit_plane = (img >> 1) & 1 # Extract the i-th bit
+bit_plane = bit_plane * 255 # Scale to 255 for visibility
+bit_planes.append(bit_plane)
+# Display the results
+cv2.imshow('Original Image', img)
+cv2.imshow('Contrast Stretching', contrast_stretched)
+cv2.imshow('Intensity Slicing', sliced_img)
+cv2.imshow('Bit Plane 1 (Least Significant Bit)', bit_planes [0]) # LSB
+cv2.imshow('Bit Plane 8 (Most Significant Bit)', bit_planes [7]) # MSB
+cv2.waitKey(0)
+cv2.destroyAllWindows()
