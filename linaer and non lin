@@ -1,0 +1,19 @@
+import cv2
+import numpy as np
+img = cv2.imread('image.jpg')
+# Linear Filters
+box_mean = cv2.blur(img, (5, 5))  # Box/Mean Filter
+gaussian = cv2.GaussianBlur(img, (5, 5), 0)  # Gaussian Filter
+average = cv2.boxFilter(img, -1, (5, 5))  # Average Filter
+# Non-Linear Filters
+median = cv2.medianBlur(img, 5)  # Median Filter
+min_filter = cv2.erode(img, np.ones((5, 5), np.uint8))  # Min Filter
+max_filter = cv2.dilate(img, np.ones((5, 5), np.uint8))  # Max Filter
+cv2.imshow('Box Mean', box_mean)
+cv2.imshow('Gaussian', gaussian)
+cv2.imshow('Average', average)
+cv2.imshow('Median', median)
+cv2.imshow('Min Filter', min_filter)
+cv2.imshow('Max Filter', max_filter)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
