@@ -1,0 +1,13 @@
+import cv2
+import numpy as np
+img = cv2.imread(‘image.jpg')
+brightened = cv2.add(img, 50)  
+darkened = cv2.subtract(img, 50)  
+multiplied = cv2.multiply(img, 1.5)  
+divided = cv2.divide(img, 2)  
+cv2.imshow('Brightened', brightened)
+cv2.imshow('Darkened', darkened)
+cv2.imshow('Multiplied', multiplied)
+cv2.imshow('Divided', divided)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
