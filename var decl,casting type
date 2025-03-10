@@ -1,8 +1,0 @@
-x=10
-y=3.14
-name="Ai"
-a=float(x)
-b=int(y)
-print(type(x))
-print(type(y))
-print(type(name))
