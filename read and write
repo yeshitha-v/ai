@@ -1,0 +1,21 @@
+import cv2
+import time
+import matplotlib.pyplot as plt
+cap = cv2.VideoCapture('cctv052x2004080516x01638.avi')
+if cap.isOpened()== False: 
+    print("Error opening the video file. Please check your file path.")
+output = cv2.VideoWriter("output.avi", cv2.VideoWriter_fourcc(*'MPEG'), 25, (1080, 1920))
+
+while cap.isOpened():
+    # Read the video file.
+    ret, frame = cap.read()
+    if ret == True:
+        cv2.imshow(“output”, frame)
+        # Press q to quit
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
+    else:
+        break
+print("No. of frames: ", ithFrame)
+cap.release()
+cv2.destroyAllWindows()
