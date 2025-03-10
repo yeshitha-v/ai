@@ -1,0 +1,24 @@
+import cv2
+import numpy as np
+def histogram_matching(src, ref):
+    src_ycrcb = cv2.cvtColor(src, cv2.COLOR_BGR2YCrCb)
+    ref_ycrcb = cv2.cvtColor(ref, cv2.COLOR_BGR2YCrCb)
+    src_hist, bins = np.histogram(src_ycrcb[:, :, 0].ravel(), 256, [0, 256])
+    ref_hist, bins = np.histogram(ref_ycrcb[:, :, 0].ravel(), 256, [0, 256])
+    cdf_src = src_hist.cumsum()
+    cdf_src = (cdf_src - cdf_src.min()) * 255 / (cdf_src.max() - cdf_src.min())
+    cdf_ref = ref_hist.cumsum()
+    cdf_ref = (cdf_ref - cdf_ref.min()) * 255 / (cdf_ref.max() - cdf_ref.min())
+    mapping = np.interp(cdf_src, cdf_ref, np.arange(256))
+    matched = cv2.LUT(src_ycrcb[:, :, 0], mapping.astype(np.uint8)
+    src_ycrcb[:, :, 0] = matched
+    matched_img = cv2.cvtColor(src_ycrcb, cv2.COLOR_YCrCb2BGR)
+    return matched_img
+src_img = cv2.imread('source.jpg')
+ref_img = cv2.imread('reference.jpg')
+matched_img = histogram_matching(src_img, ref_img)
+cv2.imshow('Source Image', src_img)
+cv2.imshow('Reference Image', ref_img)
+cv2.imshow('Matched Image', matched_img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
