@@ -1,0 +1,12 @@
+import cv2
+import numpy as np
+img = cv2.imread('image.jpg', 0)
+negative = 255 - img
+log_transformed = (np.log1p(img) / np.log1p(255) * 255).astype(np.uint8)
+gamma = 2.2
+power_log = np.power(img / 255.0, gamma) * 255
+cv2.imshow('Negative', negative)
+cv2.imshow('Log Transform', log_transformed)
+cv2.imshow('Power-Law (Gamma)', power_log.astype(np.uint8))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
