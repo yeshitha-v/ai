@@ -1,4 +1,5 @@
-With priority 
+ WITHOUT PRIORITY
+
 module encoder_8_to_3_with_priority(output reg[2:0]y,input[7:0]e); 
 always @(*) 
 begin 
@@ -37,7 +38,9 @@ initial
 #200 
 $stop; 
 endmodule 
-Without priority 
+
+WITHOUT PRIORITY
+
 module encoder_8_to_3_without_priority_bm(output reg[2:0]y,input[7:0]e); 
 always @(*) 
 begin 
