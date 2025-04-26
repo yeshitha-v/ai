@@ -1,4 +1,4 @@
-BCD counter 
+BCD COUNTER
 
 module bcd_counter(output reg [3:0]Q, input reset,clk,modeselect); 
 always@(posedge clk) 
@@ -37,8 +37,10 @@ end
 initial 
 clk=1'b0; 
 always #2 clk=~clk; 
-endmodule 
-Binary counter 
+endmodule
+
+BINARY COUNTER
+
 module binary_counter(output reg [3:0]Q, input reset,clk,modeselect); 
 always@(posedge clk) 
 begin 
