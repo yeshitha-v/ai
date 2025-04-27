@@ -1,80 +1,65 @@
-//gate level 
-module b_to_g_gl( 
-output[3:0]G,input[3:0]B  ); 
-buf a0(G[3],B[3]); 
-XOR a1(G[2],B[2]); 
-XOR a2(G[1],B[1]); 
-XOR a3(G[0],B[0]); 
-endmodule 
- 
-//data flow 
-module bintogray_df( 
-output[3:0]G,input[3:0]B  ); 
-assign G[3]=B[3]; 
-assign G[2]=B[3]^B[2]; 
-assign G[1]=B[2]^B[1]; 
-assign G[0]=B[1]^B[0]; 
-endmodule 
- 
-//behavioural model 
-module b_to_g_bm( 
-    input [3:0] B,   
-    output reg [3:0] G   
-); 
-    always @(*) begin 
-        casex (B) 
-            4'b0000: G = 4'b0000; 
-            4'b0001: G = 4'b0001; 
-            4'b0010: G = 4'b0011; 
-            4'b0011: G = 4'b0010; 
-            4'b0100: G = 4'b0110; 
-            4'b0101: G = 4'b0111; 
-            4'b0110: G = 4'b0101; 
-            4'b0111: G = 4'b0100; 
-            4'b1000: G = 4'b1100; 
-            4'b1001: G = 4'b1101; 
-            4'b1010: G = 4'b1111; 
-            4'b1011: G = 4'b1110; 
-            4'b1100: G = 4'b1010; 
-            4'b1101: G = 4'b1011; 
-            4'b1110: G = 4'b1001; 
-            4'b1111: G = 4'b1000; 
-            default: G = 4'bxxxx; 
-        endcase 
-    end 
-Endmodule 
- 
-//testbench 
- 
-module b_to_g_tb; 
-    reg [3:0] B;   
-    wire [3:0] G;   
-    
-    b_to_g_bm uut ( 
-        .B(B), 
-        .G(G) 
-    ); 
- 
-    initial begin 
-        
-        B = 4'b0000; #10; 
-        B = 4'b0001; #10; 
-        B = 4'b0010; #10; 
-        B = 4'b0011; #10; 
-        B = 4'b0100; #10; 
-        B = 4'b0101; #10; 
-        B = 4'b0110; #10; 
-        B = 4'b0111; #10; 
-        B = 4'b1000; #10; 
-        B = 4'b1001; #10; 
-        B = 4'b1010; #10; 
-        B = 4'b1011; #10; 
-        B = 4'b1100; #10; 
-        B = 4'b1101; #10; 
-        B = 4'b1110; #10; 
-        B = 4'b1111; #10; 
- 
-        #10; 
-        $finish; 
-    end 
+GATE LEVEL
+module B2G(
+input[3:0]B,
+output [3:0]G
+    );
+	 
+buf (G[3], B[3]);
+xor (G[2], B[3], B[2]);
+xor (G[1], B[2], B[1]);
+xor (G[0], B[1], B[0]);
+end module
+
+DATA FLOW
+module B2G_df(B,G)
+
+input[3:0]B,
+output [3:0]G
+
+assign G[3]=B[3];
+G[2]=B[3]^ B[2];
+G[1]=B[2]^ B[1];
+G[0]=B[1]^ B[0];
+
 endmodule
+
+
+(i)Behavioral model:
+module BinarytoGray_4(
+    output [3:0]G,
+    input [3:0] B
+    );
+	 
+reg [3:0]G;
+
+always @(B)
+begin 
+G[3] = B[3];
+G[2] = B[3] ^ B[2];
+G[1] = B[2] ^ B[1];
+G[0] = B[1] ^ B[0];
+end
+endmodule
+
+TEST BENCH
+
+Module testbench-B2G
+Reg[3:0]B;
+Wire[3:0]G;
+B2G_df.uut(B,G);
+Initial
+Begin
+B=4’b0001;
+#20
+B=4’b0100;
+#20
+B=4’b1011;
+#20
+B=4’b1111
+End
+Initial
+$monitor(g=%b”,g,b)
+#200
+$stop
+end module
+
