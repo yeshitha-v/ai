@@ -1,0 +1,49 @@
+
+clc
+clear all
+close all
+syms n a w z
+sympref('HeavisideAtOrigin',1)
+
+x1 = heaviside(n);
+disp('ztransform of x1(n)=u(n)')
+y1=ztrans(x1);
+
+x2 = n
+disp('ztransform of x2(n)=nu(n)')
+y2=ztrans(x2)
+
+x3 = n^2
+disp('ztransform of x3(n)=n^2u(n)')
+y3=ztrans(x3)
+
+x4 = a^n
+disp('ztransform of x4(n)=a^nu(n)')
+y4=ztrans(x4)
+ 
+x5 = n*a^n
+disp('ztransform of x5(n)=na^nu(n)')
+y5=ztrans(x5)
+
+x6 = cos(w*n)
+disp('ztransform of x6(n)=cos(wn)')
+y6=ztrans(x6)
+
+x7 = sin(w*n)
+disp('ztransform of x7(n)=sin(wn)')
+y7=ztrans(x7)
+
+x8 = a^n*cos(w*n)
+disp('ztransform of x8(n)=a^ncos(wn)')
+y8=ztrans(x8)
+
+x9(z) = (3*z^2+2*z+1)/(z^2-3*z+2)
+disp('inverse laplace transfoem of x9')
+y9=iztrans(x9)
+
+tf('z')
+b = [ 3 2 1];
+a = [1 -3 2];
+h=tf(b,a,0.1);
+pzmap(h)
+[r p k]=residue(b,a)
