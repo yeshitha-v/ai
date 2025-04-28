@@ -1,0 +1,54 @@
+clc;
+clear all;
+close all;
+x=input('Enter the input x(n)');
+n1=length(x);
+l1=2*n1-1;
+c = zeros(1,n1-1);
+x1=[c x];
+x2=[x c];
+for i=1:l1
+    c=circshift(x2,i-1);
+    s=x1.*c;
+    y(i)=sum(s);
+end
+y1=xcorr(x);
+
+% DFT Calculation
+N = length(y);
+for k = 0:1:N-1
+    for n = 0:1:N-1
+        p1(n+1) = y(n+1) * exp(-1j * 2 * pi * k * n / N);
+    end
+    Y(k+1) = sum(p1);
+end
+Y1=fft(y,N);
+% Plot results
+t = 0:1:l1-1;
+
+subplot(2,2,1);
+stem(t, x1);
+xlabel('n');
+ylabel('y(n)');
+title("Input Sequence x(n)");
+
+
+subplot(2,2,2);
+stem(t,Y);
+xlabel('k');
+ylabel('y(n)');
+title('Autocorrelation sequence');
+
+
+subplot(2,2,3);
+stem(t, abs(Y));
+xlabel('k');
+ylabel('y(n)');
+title('Magnitude Spectrum of given sequence');
+
+
+subplot(2,2,4);
+stem(t, angle(Y));
+xlabel('k');
+ylabel('y(n)');
+title('Phase Spectrum of given sequence');
