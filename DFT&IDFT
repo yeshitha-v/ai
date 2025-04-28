@@ -1,0 +1,60 @@
+clc;
+clear all;
+close all;
+
+N = input('Enter N input: ');
+s = input('Enter sequence: ');
+L = length(s);
+s = [s zeros(1,N - L)]; 
+% DFT Calculation
+for k = 0:1:N-1
+    for n = 0:1:N-1
+        p1(n+1) = s(n+1) * exp(-1j * 2 * pi * k * n / N);
+    end
+    X(k+1) = sum(p1);
+end
+disp(X)
+% IDFT Calculation
+for n = 0:1:N-1
+    for k = 0:1:N-1
+        p2(k+1) = X(k+1) * exp(1j * 2 * pi * k * n / N);
+    end
+    Y(n+1) = (1/N) * sum(p2);
+end
+disp(Y)
+t = 0:1:N-1;
+% Plot results
+subplot(2,2,1);
+stem(t, s);
+title("Input Sequence x(n)");
+xlabel('n');
+ylabel('Amplitude');
+
+subplot(2,2,2);
+stem(t, abs(X));
+title('Magnitude Spectrum of given sequence');
+xlabel('k');
+ylabel('Amplitude');
+
+subplot(2,2,3);
+stem(t, angle(X));
+title('Phase Spectrum of given sequence');
+xlabel('k');
+ylabel('Phase Angle');
+
+subplot(2,2,4);
+stem(t, abs(Y));
+title('IDFT:');
+xlabel('n');
+ylabel('Amplitude');
+
+% Verification with built-in functions
+X1 = fft(s, N); % Check if X & X1 are same or not
+Y1 = ifft(X1, N); % Check if Y & Y1 are same or not
+
+disp('Computed IDFT values:');
+disp(Y);
+disp('Built-in IDFT values:');
+disp(Y1);
+
+
