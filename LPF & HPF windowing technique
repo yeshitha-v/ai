@@ -1,0 +1,149 @@
+lc;
+clf;
+clear all;
+close all;
+w1=input("Enter the lower cutoff freq:");
+w2=input("Enter the higher cutoff freq:");
+N=input("Enter the value of N:");
+k=(N-1)/2
+for n=-k:k
+    bpf(n+k+1)=(sin(w2*(n+0.0000001))-sin(w1*(n+0.0000001)))/(pi*(n+0.0000001))
+    bsf(n+k+1)=(sin(pi*(n+0.0000001))-sin(w2*(n+0.0000001))+sin(w1*(n+0.0000001)))/(pi*(n+0.0000001))
+end    
+for n=-k:k
+    w1(n+k+1)=1
+    w2(n+k+1)=1-(2*abs(n)/(N-1))
+    w3(n+k+1)=0.5+0.5*cos((2*pi*n)/(N-1))
+    w4(n+k+1)=0.54+0.46*cos((2*pi*n)/(N-1))
+    w5(n+k+1)=0.42+0.5*cos((2*pi*n)/(N-1))
+end
+h1_bpf=bpf.*w1
+h2_bpf=bpf.*w2
+h3_bpf=bpf.*w3
+h4_bpf=bpf.*w4
+h5_bpf=bpf.*w5
+
+h1_bsf=bsf.*w1
+h2_bsf=bsf.*w2
+h3_bsf=bsf.*w3
+h4_bsf=bsf.*w4
+h5_bsf=bsf.*w5
+
+p=0:0.01:pi
+
+H1_bpf=freqz(h1_bpf,1,p)
+H2_bpf=freqz(h2_bpf,1,p)
+H3_bpf=freqz(h3_bpf,1,p)
+H4_bpf=freqz(h4_bpf,1,p)
+H5_bpf=freqz(h5_bpf,1,p)
+
+H1_bsf=freqz(h1_bsf,1,p)
+H2_bsf=freqz(h2_bsf,1,p)
+H3_bsf=freqz(h3_bsf,1,p)
+H4_bsf=freqz(h4_bsf,1,p)
+H5_bsf=freqz(h5_bsf,1,p)
+t1=-k:k
+t=0:0.01:pi
+figure(1)
+
+subplot(5,3,1)
+stem(t1,w1)
+title('Rectangular')
+subplot(5,3,2)
+plot(t,20*log(abs(H1_bpf)))
+title('mag')
+subplot(5,3,3)
+plot(t,angle(H1_bpf))
+title('phase')
+
+subplot(5,3,4)
+stem(t1,w2)
+title('triangular')
+subplot(5,3,5)
+plot(t,20*log(abs(H2_bpf)))
+title('mag')
+subplot(5,3,6)
+plot(t,angle(H2_bpf))
+title('phase')
+
+subplot(5,3,7)
+stem(t1,w3)
+title('Hanning')
+subplot(5,3,8)
+plot(t,20*log(abs(H3_bpf)))
+title('mag')
+subplot(5,3,9)
+plot(t,angle(H3_bpf))
+title('phase')
+
+subplot(5,3,10)
+stem(t1,w4)
+title('Hamming')
+subplot(5,3,11)
+plot(t,20*log(abs(H4_bpf)))
+title('mag')
+subplot(5,3,12)
+plot(t,angle(H4_bpf))
+title('phase')
+
+subplot(5,3,13)
+stem(t1,w5)
+title('Blackmann')
+subplot(5,3,14)
+plot(t,20*log(abs(H5_bpf)))
+title('mag')
+subplot(5,3,15)
+plot(t,angle(H5_bpf))
+title('phase')
+
+figure(2)
+
+subplot(5,3,1)
+stem(t1,w1)
+title('Rectangular')
+subplot(5,3,2)
+plot(t,20*log(abs(H1_bsf)))
+title('mag')
+subplot(5,3,3)
+plot(t,angle(H1_bsf))
+title('phase')
+
+subplot(5,3,4)
+stem(t1,w2)
+title('triangular')
+subplot(5,3,5)
+plot(t,20*log(abs(H2_bsf)))
+title('mag')
+subplot(5,3,6)
+plot(t,angle(H2_bsf))
+title('phase')
+
+subplot(5,3,7)
+stem(t1,w3)
+title('Hanning')
+subplot(5,3,8)
+plot(t,20*log(abs(H3_bsf)))
+title('mag')
+subplot(5,3,9)
+plot(t,angle(H3_bsf))
+title('phase')
+
+subplot(5,3,10)
+stem(t1,w4)
+title('Hamming')
+subplot(5,3,11)
+plot(t,20*log(abs(H4_bsf)))
+title('mag')
+subplot(5,3,12)
+plot(t,angle(H4_bsf))
+title('phase')
+
+subplot(5,3,13)
+stem(t1,w5)
+title('Blackmann')
+subplot(5,3,14)
+plot(t,20*log(abs(H5_bsf)))
+title('mag')
+subplot(5,3,15)
+plot(t,angle(H5_bsf))
+title('phase')
