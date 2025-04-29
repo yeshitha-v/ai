@@ -1,4 +1,4 @@
-lc;
+clc;
 clf;
 clear all;
 close all;
@@ -147,3 +147,5 @@ title('mag')
 subplot(5,3,15)
 plot(t,angle(H5_bsf))
 title('phase')
+
+
