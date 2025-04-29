@@ -58,3 +58,59 @@ disp('Built-in IDFT values:');
 disp(Y1);
 
 
+
+
+clf
+clc
+clear all
+close all
+x=input("Enter the input ")
+L=length(x)
+N=input("Enter the VALUE OF N ")
+
+x=[x zeros(1,N-L)]
+for k=0:N-1
+    for n=0:N-1
+        s(n+1)=x(n+1).*exp((-j*2*pi*k*n)/N)
+    end
+    X(k+1)=sum(s)
+end
+X1=fft(x,N)
+
+%IDFT
+for n = 0:1:N-1
+    for k = 0:1:N-1
+        p2(k+1) = X(k+1) * exp(1j * 2 * pi * k * n / N)
+    end
+    Y(n+1) = (1/N) * sum(p2)
+end
+Y1 = ifft(X1, N)
+
+t = 0:1:N-1;
+% Plot results
+subplot(2,2,1);
+stem(t, s);
+title("Input Sequence x(n)");
+xlabel('n');
+ylabel('Amplitude');
+
+
+subplot(2,2,2);
+stem(t, abs(X));
+title('Magnitude Spectrum of given sequence');
+xlabel('k');
+ylabel('Amplitude');
+
+subplot(2,2,3);
+stem(t, angle(X));
+title('Phase Spectrum of given sequence');
+xlabel('k');
+ylabel('Phase Angle');
+
+subplot(2,2,4);
+stem(t, abs(Y));
+title('IDFT:');
+xlabel('n');
+ylabel('Amplitude');
+
+
