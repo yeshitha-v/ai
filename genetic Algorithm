@@ -1,0 +1,71 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# fitness: maximize f(x) = x * sin(10*pi*x) on [0,1]
+def fitness(x):
+    return x * np.sin(10 * np.pi * x)
+
+# GA components
+def init_pop(n): 
+    return np.random.rand(n)
+
+def tournament_select(pop, fits, k=3):
+    idx = np.random.choice(len(pop), k, replace=False)
+    return pop[idx[np.argmax(fits[idx])]]
+
+def crossover(a, b):
+    alpha = np.random.rand()
+    return alpha*a + (1-alpha)*b
+
+def mutate(x, mr=0.1, scale=0.05):
+    if np.random.rand() < mr:
+        x += np.random.normal(0, scale)
+    return np.clip(x, 0, 1)
+
+def run_ga(pop_size=30, generations=60, seed=None):
+    if seed is not None:
+        np.random.seed(seed)
+    pop = init_pop(pop_size)
+    best_hist = []
+    for g in range(generations):
+        fits = fitness(pop)
+        best_hist.append(np.max(fits))
+        new_pop = []
+        # elitism: keep best
+        new_pop.append(pop[np.argmax(fits)])
+        while len(new_pop) < pop_size:
+            p1 = tournament_select(pop, fits)
+            p2 = tournament_select(pop, fits)
+            child = crossover(p1, p2)
+            child = mutate(child)
+            new_pop.append(child)
+        pop = np.array(new_pop)
+    return pop, np.array(best_hist)
+
+if __name__ == "__main__":
+    pop, best_hist = run_ga(pop_size=30, generations=60, seed=42)
+
+    # Plot: best fitness per generation
+    plt.figure(figsize=(8,3.5))
+    plt.plot(best_hist, marker='o', linewidth=1, markersize=3)
+    plt.title("GA: Best fitness per generation")
+    plt.xlabel("Generation")
+    plt.ylabel("Best fitness")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+    # Plot: final population (x vs fitness)
+    final_x = pop
+    final_f = fitness(final_x)
+    plt.figure(figsize=(8,3.5))
+    plt.scatter(final_x, final_f, s=40)
+    plt.title("Final population (x vs fitness)")
+    plt.xlabel("x (solution)")
+    plt.ylabel("fitness")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+    best_idx = np.argmax(final_f)
+    print(f"Best found x = {final_x[best_idx]:.6f}, fitness = {final_f[best_idx]:.6f}")
