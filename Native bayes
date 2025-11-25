@@ -1,46 +1,39 @@
-
-mport pandas as pd
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score
 
-# 1. Load dataset
-df = pd.read_csv('text_data.csv')  # Make sure this file exists in the same folder
+msglbl_data = pd.read_csv('Statements_data.csv', names=['Message', 'Label'])
+print("The Total instances in the Dataset: ", msglbl_data.shape[0])
+msglbl_data['labelnum'] = msglbl_data.Label.map({'pos': 1, 'neg': 0})
+# place the data in X and Y Vectors
+X = msglbl_data["Message"]
+Y = msglbl_data.labelnum
+# to split the data into train se and test set
+Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y)
 
-# 2. Split into features (X) and labels (y)
-X = df['text']
-y = df['label']
-
-# 3. Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-# 4. Convert text to bag-of-words
-vectorizer = CountVectorizer()
-X_train_vec = vectorizer.fit_transform(X_train)
-X_test_vec = vectorizer.transform(X_test)
-
-# 5. Train Naive Bayes model
-model = MultinomialNB()
-model.fit(X_train_vec, y_train)
-
-# 6. Predict on test data
-y_pred = model.predict(X_test_vec)
-
-# 7. Evaluate model
-accuracy = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
-
-print("Model Evaluation:")
-print("-----------------")
-print("Accuracy :", round(accuracy, 2))
-print("Precision:", round(precision, 2))
-print("Recall   :", round(recall, 2))
-print("\nSentence-wise Predictions:")
-print("---------------------------")
-
-# 8. Print each test sentence with its predicted sentiment
-for text, pred in zip(X_test, y_pred):
-    sentiment = "Positive 😊" if pred == 1 else "Negative 😞"
-    print(f"'{text}' → {sentiment}")
+count_vect = CountVectorizer()
+Xtrain_dims = count_vect.fit_transform(Xtrain)
+Xtest_dims = count_vect.transform(Xtest)
+df = pd.DataFrame(Xtrain_dims.toarray(),columns=count_vect.get_feature_names_out())
+clf = MultinomialNB()
+# to fit the train data into model
+clf.fit(Xtrain_dims, Ytrain)
+# to predict the test data
+prediction = clf.predict(Xtest_dims)
+print('******** Accuracy Metrics *********')
+print('Accuracy : ', accuracy_score(Ytest, prediction)) 
+print('Recall : ', recall_score(Ytest, prediction)) 
+print('Precision : ',precision_score(Ytest, prediction))
+print('Confusion Matrix : \n', confusion_matrix(Ytest, prediction))
+print(10*"-")
+# to predict the input statement
+test_stmt = [input("Enter any statement to predict :")]
+test_dims = count_vect.transform(test_stmt)
+pred = clf.predict(test_dims)
+for stmt,lbl in zip(test_stmt,pred):
+	if lbl == 1:
+		print("Statement is Positive")
+	else:
+		print("Statement is Negative")
