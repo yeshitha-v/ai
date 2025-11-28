@@ -34,3 +34,43 @@ plt.xlabel('Age')
 plt.ylabel('Income')
 # To display plot
 plt.show()
+
+
+
+''
+import pandas as pd
+data = {
+    "Age": [25, 30, 35, 40, 45, 50, 55, 60],
+    "Income":[29000,35000,40000,50000,55000,60000,65000,70000]
+}
+df = pd.DataFrame(data)
+df.to_csv("Age_Income.csv", index=False)
+print("created 'Age_Income.csv' sucessfully!")
+df
+
+import os
+os.listdir()
+import pandas as pd
+dataFrame = pd.read_csv("Age_Income.csv")
+dataFrame.head()
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+dataFrame = pd.read_csv("Age_Income.csv")
+age = dataFrame["Age"]
+income = dataFrame["Income"]
+num = np.size(age)
+mean_age = np.mean(age)
+mean_income = np.mean(income)
+CD_ageincome = np.sum(income*age) - num*mean_income*mean_age
+CD_ageage = np.sum(age*age) - num*mean_age*mean_age
+b1 = CD_ageincome / CD_ageage
+b0 = mean_income - b1*mean_age
+print("estimated coefficients :")
+print("b0 = ",b0,"\nb1 = ",b1)
+plt.scatter(age, income, color = "b",marker = "o")
+response_Vec = b0 + b1*age
+plt.plot(age, response_Vec, color = "r")
+plt.xlabel("Age")
+plt.ylabel("Income")
+plt.show()
